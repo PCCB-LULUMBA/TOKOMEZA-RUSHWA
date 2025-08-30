@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tokomeza Rushwa</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #f4f4f4;
+      line-height: 1.7;
+    }
+
+    header {
+      background: rgba(0, 0, 0, 0.75);
+      color: #00e5ff;
+      text-align: center;
+      padding: 25px;
+      font-size: 34px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      text-shadow: 0 0 10px #00e5ff, 0 0 20px #00e5ff;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      background: rgba(0,0,0,0.8);
+      padding: 15px;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      position: relative;
+      padding-bottom: 5px;
+      transition: color 0.3s;
+    }
+    nav a:hover { color: #00e5ff; }
+    nav a::after {
+      content: "";
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: #00e5ff;
+      transition: 0.3s;
+    }
+    nav a:hover::after { width: 100%; }
+
+    /* Slideshow */
+    .hero {
+      position: relative;
+      height: 400px;
+      overflow: hidden;
+    }
+    .slide {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 1.2s ease-in-out;
+    }
+    .active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    .hero-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color:darkgreen;: #000080;
+      font-size: 4.4rem;
+      text-align: center;
+      text-shadow: 0 0 15px #00ff99, 0 0 30px #00ff99;
+      z-index: 2;
+      animation: fadeInUp 2s ease-in-out;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translate(-50%, -30%); }
+      to { opacity: 1; transform: translate(-50%, -50%); }
+    }
+
+    /* Arrows */
+    .prev, .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 12px;
+      color: white;
+      font-weight: bold;
+      font-size: 26px;
+      border-radius: 50%;
+      user-select: none;
+      background: rgba(0,0,0,0.4);
+      z-index: 3;
+    }
+    .prev:hover, .next:hover {
+      background: rgba(0,0,0,0.7);
+    }
+    .prev { left: 15px; }
+    .next { right: 15px; }
+
+    /* Dots */
+    .dots {
+      text-align: center;
+      position: absolute;
+      bottom: 15px;
+      width: 100%;
+      z-index: 3;
+    }
+    .dot {
+      cursor: pointer;
+      height: 14px;
+      width: 14px;
+      margin: 0 4px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.6s;
+    }
+    .active-dot {
+      background-color: #00e5ff;
+      box-shadow: 0 0 8px #00e5ff;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    h2 {
+      color: #00e5ff;
+      font-size: 1.9rem;
+      margin-top: 30px;
+      border-left: 6px solid #00e5ff;
+      padding-left: 12px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 15px;
+      padding: 25px;
+      margin: 25px 0;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.7);
+    }
+    .card img {
+      max-width: 100%;
+      border-radius: 12px;
+      margin-top: 15px;
+      transition: transform 0.4s;
+    }
+    .card img:hover { transform: scale(1.05); }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 28px;
+      background: linear-gradient(45deg, #00e5ff, #00ff99);
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #000;
+      transition: all 0.3s;
+      box-shadow: 0 0 15px rgba(0,229,255,0.6), 0 0 30px rgba(0,255,153,0.5);
+    }
+    button:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 25px rgba(0,229,255,0.9), 0 0 40px rgba(0,255,153,0.9);
+    }
+    button a {
+      text-decoration: none;
+      color: black;
+    }
+
+    footer {
+      background: rgba(0,0,0,0.9);
+      color: #ccc;
+      text-align: center;
+      padding: 25px;
+      margin-top: 50px;
+      font-size: 15px;
+    }
+    footer small {
+      display: block;
+      margin-top: 8px;
+      font-size: 0.85rem;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+
+  <header>TOKOMEZA RUSHWA</header>
+
+  <nav>
+    <a href="index.html">Maana</a>
+    <a href="maelezo.html">Maelezo</a>
+    <a href="hasara.html">Hasara</a>
+    <a href="njia.html">Njia za Kupambana</a>
+  </nav>
+
+  <!-- Slideshow Section -->
+  <section class="hero">
+    <img class="slide active" src="images/corruption1.jpg" alt="Picha ya Rushwa 1">
+    <img class="slide" src="images/corruption2.jpg" alt="Picha ya Rushwa 2">
+    <img class="slide" src="images/corruption3.jpg" alt="Picha ya Rushwa 3">
+    <img class="slide" src="images/corruption4.jpg" alt="Picha ya Rushwa 4">
+
+    <div class="hero-text">RUSHWA NI KIZUIZI CHA MAENDELEO</div>
+
+    <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+    <a class="next" onclick="changeSlide(1)">&#10095;</a>
+
+    <div class="dots">
+      <span class="dot active-dot" onclick="currentSlide(0)"></span>
+      <span class="dot" onclick="currentSlide(1)"></span>
+      <span class="dot" onclick="currentSlide(2)"></span>
+      <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
+  </section>
+
+  <main>
+    <h2>Maana ya Rushwa</h2>
+     <p>
+        Rushwa ni vitendo vya kutoa au kupokea kitu chochote cha thamani, kama vile fedha, zawadi, au ahadi, kwa lengo la kushawishi au kupata faida isiyo ya haki katika hali fulani. 
+        Rushwa inajumuisha vitendo vya ukiukaji wa maadili, sheria, na kanuni zinazotawala jamii au taasisi, na mara nyingi huathiri mchakato wa utawala, sheria, biashara, na hata huduma za kijamii.
+      </p>
+      <img src="images/corruption1.jpg" alt="Mfano wa Rushwa">
+    </div>
+
+    <h2>Vitendo vya Rushwa</h2>
+    <div class="card">
+      <ul>
+        <li>Kutoa au kupokea fedha ili kupata huduma isiyo ya haki.</li>
+        <li>Kutoa au kupokea zawadi ili kupendelea upande mmoja katika biashara au utawala.</li>
+        <li>Kufanya makubaliano ya kimahakama kwa ajili ya kupata hukumu isiyo ya haki.</li>
+        <li>Kushawishi viongozi au watendaji wa serikali kwa manufaa binafsi.</li>
+      </ul>
+    </div>
+
+    <h2>Mifano ya Rushwa</h2>
+    <div class="card">
+      <ul>
+        <li><strong>Rushwa ya Polisi</strong> – Polisi anapokea fedha ili asiandike ripoti ya kosa au asichukue hatua kwa mtuhumiwa.</li>
+        <li><strong>Rushwa ya Kisiasa</strong> – Mwanasiasa anatoa fedha au ahadi kwa wapiga kura ili kupata kura.</li>
+        <li><strong>Rushwa ya Biashara</strong> – Mkurugenzi wa kampuni anapokea rushwa kutoka kwa mtoa huduma ili apokee huduma hiyo bila kufuata taratibu.</li>
+        <li><strong>Rushwa ya Mahakama</strong> – Jaji anapokea rushwa ili kutoa hukumu inayoegemea upande mmoja.</li>
+      </ul>
+      <img src="images/corruption5.jpg" alt="Mfano wa Rushwa Mahakamani">
+    </div>
+
+    <div class="card">
+      <p>
+        IMF inakadiria kuwa rushwa husababisha hasara ya dola trilioni 1.5 hadi 2 kila mwaka duniani, sawa na takriban 2% ya pato la taifa (GDP).
+      </p>
+      <p>
+        Kwa jumla, rushwa ni saratani inayotafuna msingi wa haki, usawa na maendeleo katika jamii. Ni janga ambalo linapaswa kushughulikiwa kwa dharura na kwa juhudi za pamoja kati ya serikali, taasisi binafsi na wananchi kwa ujumla.
+      </p>
+      <p>
+        Ili kufanikisha vita dhidi ya rushwa, kila mmoja wetu anapaswa kuwa na uadilifu, kuwajibika na kuwa tayari kukataa kushiriki vitendo vya kifisadi. Tukiamua kwa pamoja, inawezekana kuijenga jamii isiyo na rushwa, yenye haki na ustawi kwa wote.
+      </p>
+      <p>
+        <em>Kwa maelezo zaidi unaweza kuangalia utafiti uliofanywa na IMF: 
+        <a href="https://www.imf.org/en/News/Articles/2015/09/28/04/53/sores051116a" target="_blank" rel="noopener noreferrer">IMF.org</a></em>
+      </p>
+      <button><a href="maelezo.html">Soma Zaidi</a></button>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 Tokomeza Rushwa. Haki zote zimehifadhiwa.
+    <small>Presented by Bright Jacob &amp; Frank Amos</small>
+  </footer>
+
+  <script>
+    let slideIndex = 0;
+    let slides = document.querySelectorAll(".slide");
+    let dots = document.querySelectorAll(".dot");
+
+    function showSlide(n) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle("active", i === n);
+        dots[i].classList.toggle("active-dot", i === n);
+      });
+      slideIndex = n;
+    }
+
+    function changeSlide(n) {
+      slideIndex = (slideIndex + n + slides.length) % slides.length;
+      showSlide(slideIndex);
+    }
+
+    function currentSlide(n) {
+      showSlide(n);
+    }
+
+    // Auto slide
+    function autoSlide() {
+      slideIndex = (slideIndex + 1) % slides.length;
+      showSlide(slideIndex);
+    }
+    setInterval(autoSlide, 5000);
+
+    showSlide(0);
+  </script>
+</body>
+</html>

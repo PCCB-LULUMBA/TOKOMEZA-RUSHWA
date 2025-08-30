@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Usajili | PCCB</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --brand:#0d6b3a; /* kijani ya uadilifu */
+      --brand-dark:#0a4f2a;
+      --accent:#f0b429; /* dhahabu ya msisitizo */
+      --bg:#f4f7f6;
+      --card:#ffffff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"Poppins", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      color:#0f172a;
+      background: var(--bg);
+      min-height:100dvh;
+    }
+
+    /* BACKGROUND WATERMARK (PCCB LOGO) */
+    body::before{
+      content:"";
+      position:fixed; inset:0;
+      background-image: url('images/corruption6.png'); /* 👉 Badilisha hii iwe nembo halisi ya PCCB (PNG yenye uwazi) */
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: min(65vw, 900px);
+      opacity: .08; /* watermark laini */
+      pointer-events:none;
+      z-index:-1;
+      filter: grayscale(100%);
+    }
+
+    header{
+      position:sticky; top:0; z-index:10;
+      background: linear-gradient( to right, var(--brand-dark), var(--brand));
+      color:white;
+      border-bottom: 3px solid var(--accent);
+      box-shadow: 0 6px 18px rgba(0,0,0,.18);
+    }
+    .wrap{max-width:1200px; margin-inline:auto; padding: 16px 20px;}
+    .hero{
+      display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;
+    }
+    .title{font-size:clamp(24px, 4vw, 40px); font-weight:800; letter-spacing:.2px; margin:0}
+    .tagline{font-size:clamp(12px, 2vw, 16px); margin:6px 0 0; opacity:.95}
+
+    main{padding: 28px 20px 60px}
+    .grid{
+      max-width:1200px; margin-inline:auto;
+      display:grid; grid-template-columns: 1.2fr .8fr; gap:28px;
+    }
+    @media (max-width: 960px){ .grid{grid-template-columns: 1fr; } }
+
+    .card{
+      background:var(--card);
+      border-radius:20px;
+      box-shadow: 0 18px 40px rgba(2, 24, 12, .08);
+      border:1px solid rgba(13,107,58,.12);
+      overflow:hidden;
+    }
+    .card-head{
+      padding:16px 20px; background:linear-gradient( to right, rgba(13,107,58,.12), rgba(13,107,58,.06));
+      border-bottom:1px solid rgba(13,107,58,.12);
+    }
+    .card-body{ padding:20px; }
+
+    form{ display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
+    @media (max-width:700px){ form{grid-template-columns: 1fr;} }
+
+    label{ display:block; font-weight:600; font-size:14px; margin:4px 0 8px }
+    input, select{
+      width:100%;
+      padding:12px 14px; border-radius:12px; border:1px solid #d4dbe0; background:#fff;
+      outline:none; transition:.15s ease; font-size:15px;
+    }
+    input:focus, select:focus{ border-color: var(--brand); box-shadow:0 0 0 4px rgba(13,107,58,.12) }
+
+    .full{ grid-column: 1 / -1; }
+    .actions{ display:flex; gap:12px; align-items:center; justify-content:flex-end; margin-top:6px }
+    .btn{
+      cursor:pointer; user-select:none; border:none; border-radius:14px; padding:12px 18px;
+      font-weight:700; letter-spacing:.3px; box-shadow: 0 8px 22px rgba(13,107,58,.25);
+      background: linear-gradient( to right, var(--brand), var(--brand-dark)); color:white;
+    }
+    .btn.secondary{ background:#e2e8f0; color:#0f172a; box-shadow:none }
+
+    /* Gallery */
+    .gallery{ display:grid; grid-template-columns: 1fr; gap:16px }
+    .tile{ position:relative; border-radius:16px; overflow:hidden; border:1px solid rgba(13,107,58,.12) }
+    .tile img{ width:100%; height:240px; object-fit:cover; display:block; }
+    .tile .caption{
+      position:absolute; inset:auto 0 0 0; padding:10px 12px; font-weight:700;
+      background: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0)); color:white;
+      text-shadow:0 1px 4px rgba(0,0,0,.6); font-size:14px;
+    }
+
+    /* PAGE 2 */
+    .page{ display:none }
+    .page.active{ display:block }
+    .thanks h2{ margin:0 0 8px; font-size: clamp(22px, 3.5vw, 32px) }
+    .muted{ color:#475569; font-size:14px }
+
+    footer{ text-align:center; padding:28px 12px; color:#475569 }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap hero">
+      <div>
+        <h1 class="title">PCCB — Ijue Maana ya Rushwa</h1>
+        <p class="tagline"><strong>KAULI MBIU:</strong> “KUKUZA KISOMO KATIKA ZAMA ZA KIDIGITALI KWA MAENDELEO ENDELEVU YA TAIFA LETU”</p>
+      </div>
+      <div style="display:flex; gap:10px; align-items:center">
+        <span style="font-weight:700"><img  src="images/corruption6.png"  alt="Kataa Rushwa" width="100px" length="100px" /></span>
+        <span style="display:inline-block; width:10px; height:10px; background:var(--accent); border-radius:50%"></span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- PAGE 1: FORM -->
+    <section id="page1" class="page active">
+      <div class="grid">
+        <div class="">
+          <div class="card-head">
+            <h2 style="margin:0">Jaza Taarifa Zako</h2>
+          </div>
+          <div class="card-body">
+            <form id="regForm">
+              <div>
+                <label for="firstName">Jina la Kwanza</label>
+                <input id="firstName" name="firstName" type="text" required placeholder="Mf. Gasper" />
+              </div>
+              <div>
+                <label for="middleName">Jina la Pili</label>
+                <input id="middleName" name="middleName" type="text" placeholder="(Mf. Nickodemas)" />
+              </div>
+              <div>
+                <label for="lastName">Jina la Tatu</label>
+                <input id="lastName" name="lastName" type="text" required placeholder="Mf. Mwita" />
+              </div>
+              <div>
+                <label for="dob">Tarehe ya Kuzaliwa</label>
+                <input id="dob" name="dob" type="date" required />
+              </div>
+              <div class="full">
+                <label for="region">Mkoa</label>
+                <select id="region" name="region" required>
+                  <option value="" selected disabled>Chagua mkoa…</option>
+                  <!-- Tanzania Bara (26) -->
+                  <option>Arusha</option>
+                  <option>Dar es Salaam</option>
+                  <option>Dodoma</option>
+                  <option>Geita</option>
+                  <option>Iringa</option>
+                  <option>Kagera</option>
+                  <option>Katavi</option>
+                  <option>Kigoma</option>
+                  <option>Kilimanjaro</option>
+                  <option>Lindi</option>
+                  <option>Manyara</option>
+                  <option>Mara</option>
+                  <option>Mbeya</option>
+                  <option>Morogoro</option>
+                  <option>Mtwara</option>
+                  <option>Mwanza</option>
+                  <option>Njombe</option>
+                  <option>Pwani</option>
+                  <option>Rukwa</option>
+                  <option>Ruvuma</option>
+                  <option>Shinyanga</option>
+                  <option>Simiyu</option>
+                  <option>Singida</option>
+                  <option>Songwe</option>
+                  <option>Tabora</option>
+                  <option>Tanga</option>
+                  <!-- Zanzibar (5) -->
+                  <option>Kaskazini Pemba</option>
+                  <option>Kusini Pemba</option>
+                  <option>Kaskazini Unguja</option>
+                  <option>Kusini Unguja</option>
+                  <option>Mjini Magharibi</option>
+                </select>
+              </div>
+              <div class="full">
+                <label for="email">Barua Pepe</label>
+                <input id="email" name="email" type="email" required placeholder="mfano@barua.tz" />
+              </div>
+
+              <div class="full actions">
+                <button type="reset" class="btn secondary">Futa</button>
+                <button type="submit" class="btn">Wasilisha</button>
+              </div>
+            </form>
+          </div>
+          <p class="muted" style="margin-top:14px">for more follow us on<div class="social-icons>
+  <a href="https://facebook.com/YourPage" target="_blank"><img src="images/facebook-icon.png" alt="Facebook" width="30px" length="30px"></a>
+  <a href="https://instagram.com/YourProfile" target="_blank"><img src="images/instagram-icon.png" alt="Instagram" width="30px" length="30px"></a>
+  <a href="https://twitter.com/YourHandle" target="_blank"><img src="images/twitter-icon.png" alt="Twitter" width="30px" length="30px"></a>
+  <a href="https://linkedin.com/in/YourProfile" target="_blank"><img src="images/linkedin-icon.png" alt="LinkedIn" width="30px" length="30px"></a>
+</div> </p>
+        </div>
+
+        
+        <aside class="card">
+          <div class="card-head">
+            <h3 style="margin:0">Elimu Dhidi ya Rushwa</h3>
+          </div>
+          <div class="card-body">
+            <div class="gallery">
+              <div class="tile">
+                <img src="images/images2.png" alt="Mikono kushirikiana kwa uadilifu"/>
+                <div class="caption">Uadilifu na Uwajibikaji</div>
+              </div>
+              <div class="tile">
+                <img src="images/images3.png" alt="Kikundi cha vijana wakijifunza"/>
+                <div class="caption">Elimu kwa Umma</div>
+              </div>
+              <div class="tile">
+                <img src="images/images1.png" alt="Teknolojia kwa uwazi"/>
+                <div class="caption">Uadilifu Kazini</div>
+              </div>
+ 
+              </div>
+            </div>
+            <p class="muted" style="margin-top:10px">Picha baadhi zikionesha kampeni kupinga Rushwa inavyo  endelea</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- PAGE 2: NEXT PAGE AFTER SUBMIT -->
+    <section id="page2" class="page">
+      <div class="wrap">
+        <div class="card thanks" style="max-width:900px; margin: 0 auto">
+          <div class="card-head"><h2>Asante kwa Kujisajili!</h2></div>
+          <div class="card-body">
+            <p class="muted">Umefanikiwa kutuma taarifa zako. Hapa chini ni muhtasari:</p>
+            <div id="summary" style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:16px 0"></div>
+
+            <div class="actions" style="justify-content:space-between">
+              <button class="btn secondary" onclick="goBack()">Rudi Kwenye Fomu</button>
+              <a class="btn" href="index.html" onclick="fakeNav()" role="button">Nenda kwenye Ukurasa Mwingine</a>
+            </div>
+            <p class="muted" style="margin-top:14px">for more follow us on<div class="social-icons>
+  <a href="https://facebook.com/YourPage" target="_blank"><img src="images/facebook-icon.png" alt="Facebook" width="30px" length="30px"></a>
+  <a href="https://instagram.com/YourProfile" target="_blank"><img src="images/instagram-icon.png" alt="Instagram" width="30px" length="30px"></a>
+  <a href="https://twitter.com/YourHandle" target="_blank"><img src="images/twitter-icon.png" alt="Twitter" width="30px" length="30px"></a>
+  <a href="https://linkedin.com/in/YourProfile" target="_blank"><img src="images/linkedin-icon.png" alt="LinkedIn" width="30px" length="30px"></a>
+</div> </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> PCCB • Kataa Rushwa • Jenga Uadilifu<br>Prepared by Bright Faya & Frank Amos
+  </footer>
+
+  <script>
+    const form = document.getElementById('regForm');
+    const page1 = document.getElementById('page1');
+    const page2 = document.getElementById('page2');
+    const summary = document.getElementById('summary');
+
+    // On submit: validate then "nenda ukurasa mwingine" (ndani ya faili hili kwa sasa)
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      if(!form.reportValidity()) return;
+
+      const data = Object.fromEntries(new FormData(form).entries());
+      summary.innerHTML = `
+        <div class="card" style="padding:12px">
+          <strong>Jina la Kwanza</strong>
+          <div>${escapeHtml(data.firstName || '')}</div>
+        </div>
+        <div class="card" style="padding:12px">
+          <strong>Jina la Pili</strong>
+          <div>${escapeHtml(data.middleName || '—')}</div>
+        </div>
+        <div class="card" style="padding:12px">
+          <strong>Jina la Tatu</strong>
+          <div>${escapeHtml(data.lastName || '')}</div>
+        </div>
+        <div class="card" style="padding:12px">
+          <strong>Tarehe ya Kuzaliwa</strong>
+          <div>${escapeHtml(data.dob || '')}</div>
+        </div>
+        <div class="card" style="padding:12px">
+          <strong>Mkoa</strong>
+          <div>${escapeHtml(data.region || '')}</div>
+        </div>
+        <div class="card" style="padding:12px">
+          <strong>Barua Pepe</strong>
+          <div>${escapeHtml(data.email || '')}</div>
+        </div>
+      `;
+
+      page1.classList.remove('active');
+      page2.classList.add('active');
+      window.scrollTo({ top:0, behavior:'smooth' });
+    });
+
+    function goBack(){
+      page2.classList.remove('active');
+      page1.classList.add('active');
+      window.scrollTo({ top:0, behavior:'smooth' });
+    
+    }
+
+    // Kinga ndogo dhidi ya XSS wakati wa kuonyesha muhtasari
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll('&','&amp;')
+        .replaceAll('<','&lt;')
+        .replaceAll('>','&gt;')
+        .replaceAll('"','&quot;')
+        .replaceAll("'",'&#039;');
+    }
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
+
